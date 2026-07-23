@@ -9,6 +9,6 @@ export interface RouteEntry {
 }
 
 export const ROUTE_TABLE: RouteEntry[] = [
-  { path: '/', component: lazy(() => import('../routes/Home')) },
+  { path: '/', component: lazy(() => import('../routes/Todos')) },
   { path: '*', component: lazy(() => import('../routes/NotFound')) },
 ];
