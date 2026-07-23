@@ -13,7 +13,7 @@
     "lint:fix": "biome check --write .",
     "fmt": "biome format --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit",
-    "test": "bun test apps/api/test/unit packages/domain scripts/lib && bun run --filter @todo/web test",
+    "test": "bun test apps/api/test/unit packages/domain packages/db scripts/lib && bun run --filter @todo/web test",
     "test:integration": "bun test apps/api/test/integration",
     "help": "bun scripts/help.ts"
   },
