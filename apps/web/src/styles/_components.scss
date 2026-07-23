@@ -492,3 +492,110 @@
     color: var(--danger);
   }
 }
+
+.admin-page {
+  display: grid;
+  gap: var(--space-4);
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  &__stats {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  &__count {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  &__sep {
+    color: var(--border);
+  }
+
+  &__loading,
+  &__error {
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--muted);
+    @extend %card-base;
+  }
+
+  &__error {
+    color: var(--danger);
+  }
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  @extend %card-base;
+
+  &__th {
+    padding: var(--space-3);
+    text-align: left;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--accent-soft);
+
+    &--action {
+      text-align: right;
+    }
+  }
+
+  &__row {
+    border-top: 1px solid var(--border);
+    @include transition(background);
+  }
+
+  &__td {
+    padding: var(--space-3);
+    font-size: 0.9375rem;
+    color: var(--text);
+    vertical-align: middle;
+
+    &--email {
+      word-break: break-word;
+    }
+
+    &--action {
+      text-align: right;
+    }
+  }
+
+  &__role {
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    @include focus-ring;
+    @include transition(border-color);
+  }
+
+  &__delete {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.8125rem;
+
+    &:hover:not(:disabled) {
+      border-color: rgb(var(--c-danger) / 0.5);
+      color: var(--danger);
+    }
+  }
+}

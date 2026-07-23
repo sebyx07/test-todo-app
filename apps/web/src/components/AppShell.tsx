@@ -4,7 +4,7 @@
 import { A } from '@solidjs/router';
 import type { ParentComponent } from 'solid-js';
 import { Show } from 'solid-js';
-import { useLogout, useSession } from '../lib/auth';
+import { isAdmin, useLogout, useSession } from '../lib/auth';
 import { HealthBadge } from './HealthBadge';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -24,6 +24,11 @@ export const AppShell: ParentComponent = (props) => {
             <A href="/todos" class="site-header__link">
               Todos
             </A>
+            <Show when={isAdmin(user())}>
+              <A href="/admin" class="site-header__link">
+                Admin
+              </A>
+            </Show>
             <Show
               when={user()}
               fallback={
