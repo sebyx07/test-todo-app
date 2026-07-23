@@ -1,11 +1,12 @@
 import { afterEach, describe, expect, it, mock } from 'bun:test';
-import type { Todo } from '@todo/domain';
+import type { Todo, User } from '@todo/domain';
 import {
   ApiError,
   apiDelete,
   apiGet,
   apiPatch,
   apiPost,
+  authApi,
   createTodo,
   deleteTodo,
   fetchTodos,
@@ -50,6 +51,7 @@ describe('apiGet', () => {
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith('/api/ping', {
       headers: { accept: 'application/json' },
+      credentials: 'same-origin',
     });
   });
 
@@ -159,6 +161,7 @@ describe('fetchTodos', () => {
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith('/api/todos', {
       headers: { accept: 'application/json' },
+      credentials: 'same-origin',
     });
   });
 });
@@ -216,7 +219,95 @@ describe('deleteTodo', () => {
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith(
       '/api/todos/todo-1',
-      expect.objectContaining({ method: 'DELETE' }),
+      expect.objectContaining({ method: 'DELETE', credentials: 'same-origin' }),
     );
+  });
+});
+
+const sampleUser: User = {
+  id: 'user-1',
+  email: 'a@b.com',
+  role: 'user',
+  createdAt: '2024-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-01T00:00:00.000Z',
+};
+
+describe('authApi.register', () => {
+  it('POSTs /auth/register with the input body and returns the new User', async () => {
+    const fn = mockFetch({ ok: true, json: () => Promise.resolve(sampleUser) });
+    const input = { email: 'a@b.com', password: 'password1' };
+
+    const result = await authApi.register(input);
+
+    expect(result).toEqual(sampleUser);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(
+      '/api/auth/register',
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'same-origin',
+        body: JSON.stringify(input),
+      }),
+    );
+  });
+});
+
+describe('authApi.login', () => {
+  it('POSTs /auth/login with the input body and returns the User', async () => {
+    const fn = mockFetch({ ok: true, json: () => Promise.resolve(sampleUser) });
+    const input = { email: 'a@b.com', password: 'password1' };
+
+    const result = await authApi.login(input);
+
+    expect(result).toEqual(sampleUser);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(
+      '/api/auth/login',
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'same-origin',
+        body: JSON.stringify(input),
+      }),
+    );
+  });
+});
+
+describe('authApi.logout', () => {
+  it('POSTs /auth/logout with credentials and resolves void on ok', async () => {
+    const fn = mockFetch({ ok: true });
+
+    const result = await authApi.logout();
+
+    expect(result).toBeUndefined();
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'same-origin',
+    });
+  });
+
+  it('throws ApiError on !ok', async () => {
+    mockFetch({ ok: false, status: 500 });
+
+    const error = await authApi.logout().catch((e: unknown) => e);
+
+    expect(error).toBeInstanceOf(ApiError);
+    expect((error as ApiError).status).toBe(500);
+    expect((error as ApiError).message).toBe('POST /auth/logout failed');
+  });
+});
+
+describe('authApi.getMe', () => {
+  it('GETs /auth/me with credentials and returns the User', async () => {
+    const fn = mockFetch({ ok: true, json: () => Promise.resolve(sampleUser) });
+
+    const result = await authApi.getMe();
+
+    expect(result).toEqual(sampleUser);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith('/api/auth/me', {
+      headers: { accept: 'application/json' },
+      credentials: 'same-origin',
+    });
   });
 });
