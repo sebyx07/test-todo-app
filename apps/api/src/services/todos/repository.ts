@@ -90,3 +90,9 @@ export function deleteTodo(db: Database, id: string): void {
   requireTodoRow(db, id);
   db.prepare('DELETE FROM todos WHERE id = ?').run(id);
 }
+
+/** Count all todos. Used by the stats service. */
+export function countTodos(db: Database): number {
+  const row = db.prepare('SELECT COUNT(*) AS count FROM todos').get() as { count: number };
+  return row.count;
+}
