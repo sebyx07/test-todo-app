@@ -8,6 +8,15 @@ const schema = z.object({
   DB_PATH: z.string().default(':memory:'),
   DATABASE_URL: z.url().optional(),
   REDIS_URL: z.url().optional(),
+  SESSION_COOKIE_NAME: z.string().default('session'),
+  SESSION_TTL_SECONDS: z.coerce.number().int().positive().default(604800),
+  COOKIE_SECURE: z
+    .preprocess((v) => {
+      if (typeof v === 'boolean') return v;
+      if (typeof v === 'string') return v.toLowerCase() === 'true';
+      return false;
+    }, z.boolean())
+    .default(false),
 });
 
 export type Env = z.infer<typeof schema>;
