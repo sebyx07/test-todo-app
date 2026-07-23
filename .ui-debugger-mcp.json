@@ -1,7 +1,7 @@
 {
   "models": {
-    "driver": "z-ai/glm-5.2",
-    "vision": "z-ai/glm-5v-turbo",
+    "driver": "deepseek/deepseek-v4-flash#uptime",
+    "vision": "qwen/qwen3-vl-32b-instruct",
     "summary": "deepseek/deepseek-v4-flash"
   },
   "workspace": "./tmp/ui-debugger-mcp",

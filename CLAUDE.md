@@ -92,9 +92,10 @@ tmp/                          # gitignored scratch — put junk here, never in t
 - `ui-debugger` MCP drives a real browser, finds functional + visual bugs, reports findings. Use it instead of asking a human to click.
 - Flow: `bin/dev` first → `start_debug` (target `web`, plus a goal) → poll `get_findings` → `end_session`.
 - Config `.ui-debugger-mcp.json` (committed): target `web` → `http://localhost:5180`, workspace `tmp/ui-debugger-mcp/`.
-- Models: driver `z-ai/glm-5.2` (text, drives blind) · vision `z-ai/glm-5v-turbo` (the eyes) · summary `deepseek/deepseek-v4-flash`. Loop feels slow → swap driver to `deepseek/deepseek-v4-flash#uptime`.
+- Models: driver `deepseek/deepseek-v4-flash#uptime` (fast agentic text, drives blind, $0.10/M in) · vision `qwen/qwen3-vl-32b-instruct` (the eyes) · summary `deepseek/deepseek-v4-flash`. Driver stuck on a hard flow → swap to `z-ai/glm-5.2` (8× the cost).
 - Key + base URL live in `.mcp.json` — **gitignored**. Copy `.mcp.json.example`, paste an **OpenRouter** key. NEVER commit a key.
-- Must be OpenRouter, verified 2026-07: the z.ai coding plan is text-only (`1210 content.type must be text`, GLM-5V-Turbo → `1311 plan lacks access`), and z.ai's general endpoint has no balance on this key (`1113`). Vision is required for `look`.
+- One provider serves all three roles (`ConfigSchema` is a `strictObject`, no per-role base URL) → it must be OpenRouter. Verified 2026-07: the z.ai **coding plan is text-only** — images → `1210 content.type must be text`, GLM-5V-Turbo → `1311 plan lacks access`; z.ai pay-go → `1113 insufficient balance`. Vision is required for `look`.
+- Vision benchmarked 2026-07, 4 runs each on a real screenshot (count cards · read a specific row label · judge alignment): `qwen3-vl-32b-instruct` 4/4, ~1.4s, 963 tok, $0.10/M in — replaced `glm-5v-turbo` (correct but ~6.6s, ~1.5k reasoning tokens, overflows `max_tokens` into an empty answer, $1.20/M in). `seed-1.6-flash` 4/4 but ~2.6s. `gemini-2.5-flash-lite` and `gemma-3-12b` miscounted elements — do not use.
 
 ## Where to look (load on demand)
 - Per-app rules → `apps/api/README.md` · `apps/web/README.md`
