@@ -1,0 +1,15 @@
+{
+  "models": {
+    "driver": "z-ai/glm-5.2",
+    "vision": "z-ai/glm-5v-turbo",
+    "summary": "deepseek/deepseek-v4-flash"
+  },
+  "workspace": "./tmp/ui-debugger-mcp",
+  "targets": {
+    "web": {
+      "adapter": "browser",
+      "url": "http://localhost:5180",
+      "headless": true
+    }
+  }
+}

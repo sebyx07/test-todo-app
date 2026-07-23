@@ -88,6 +88,14 @@ tmp/                          # gitignored scratch — put junk here, never in t
 - Commit hook runs `lint:fix` and re-stages — unlinted code cannot be committed.
 - CI (`.github/workflows/ci.yml`): lint · typecheck · test · integration, parallel, cached, free GitHub runners. Same commands as `bin/check`.
 
+## UI debugging (MCP)
+- `ui-debugger` MCP drives a real browser, finds functional + visual bugs, reports findings. Use it instead of asking a human to click.
+- Flow: `bin/dev` first → `start_debug` (target `web`, plus a goal) → poll `get_findings` → `end_session`.
+- Config `.ui-debugger-mcp.json` (committed): target `web` → `http://localhost:5180`, workspace `tmp/ui-debugger-mcp/`.
+- Models: driver `z-ai/glm-5.2` (text, drives blind) · vision `z-ai/glm-5v-turbo` (the eyes) · summary `deepseek/deepseek-v4-flash`. Loop feels slow → swap driver to `deepseek/deepseek-v4-flash#uptime`.
+- Key + base URL live in `.mcp.json` — **gitignored**. Copy `.mcp.json.example`, paste an **OpenRouter** key. NEVER commit a key.
+- Must be OpenRouter, verified 2026-07: the z.ai coding plan is text-only (`1210 content.type must be text`, GLM-5V-Turbo → `1311 plan lacks access`), and z.ai's general endpoint has no balance on this key (`1113`). Vision is required for `look`.
+
 ## Where to look (load on demand)
 - Per-app rules → `apps/api/README.md` · `apps/web/README.md`
 - Docs layout, plan format → `docs/README.md`

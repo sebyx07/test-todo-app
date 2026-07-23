@@ -11,10 +11,11 @@ build/
 .claude-task-master/
 .playwright-mcp/
 
-# env: committed defaults live in .env.development
+# env + secrets: committed defaults live in .env.development / .mcp.json.example
 .env
 .env.*.local
 .env.local
+.mcp.json
 
 # editors
 .idea/

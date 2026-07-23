@@ -7,6 +7,8 @@ Bun monorepo scaffold, set up AI-first. Test app — **never deployed**. No todo
 bin/setup       # deps + .env.development.local + docker services
 bin/dev         # api :3000 · web :5180
 bin/check       # lint + typecheck + unit + integration
+
+cp .mcp.json.example .mcp.json   # then paste your key — .mcp.json is gitignored
 ```
 
 ## Stack
@@ -40,6 +42,7 @@ docs/           spec, plans, ADRs                     → docs/README.md
 - `.claude/settings.json` — broad allow-list so the agent runs `bin/*`, `bun`, `git`, `gh` without prompts.
 - `.claude/hooks/pre-commit.ts` — lint-fixes and re-stages before any `git commit`. Unlinted code can't land.
 - Per-app `README.md` — rules live next to the code they govern.
+- [`ui-debugger` MCP](https://github.com/developerz-ai/ui-debugger-mcp) — an agent drives the browser, finds UI bugs, reports back. Targets in `.ui-debugger-mcp.json`; keys in `.mcp.json` (gitignored — copy `.mcp.json.example`).
 - `tmp/` — gitignored scratch space for agents.
 
 Conventions come from [gold-standards-in-ai](../../developerz-ai/gold-standards-in-ai) and [claude-code-bible](../claude-code-bible).
