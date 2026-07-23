@@ -1,6 +1,6 @@
 # test-todo-app
 
-Bun monorepo scaffold, set up AI-first. Test app — **never deployed**. No todo features yet: this is the base.
+Bun monorepo scaffold, set up AI-first. Test app — **never deployed**. A todo CRUD app: create, list, toggle/rename, and delete todos, backed by SQLite and served by a Hono API with a SolidJS SPA front end.
 
 ## Quickstart
 ```bash

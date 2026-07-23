@@ -1,6 +1,7 @@
 // TanStack Query hooks for todo server state. Server state via Query only — never a hand-rolled cache.
 import { useMutation, useQuery, useQueryClient } from '@tanstack/solid-query';
 import type { CreateTodoInput, Todo, UpdateTodoInput } from '@todo/domain';
+import { createSignal } from 'solid-js';
 import { createTodo, deleteTodo, fetchTodos, updateTodo } from './api';
 
 /** Centralised, typo-safe query keys for the todos cache. */
@@ -21,6 +22,50 @@ export interface UpdateTodoVariables {
  */
 export function applyTodoPatch(todos: readonly Todo[], id: string, patch: UpdateTodoInput): Todo[] {
   return todos.map((todo): Todo => (todo.id === id ? { ...todo, ...patch } : todo));
+}
+
+// --- Client-side filtering ---------------------------------------------------
+
+/** Visibility filter offered by the todo UI. */
+export type TodoFilter = 'all' | 'active' | 'completed';
+
+/** The ordered filter options the UI renders as buttons. */
+export const TODO_FILTERS: readonly TodoFilter[] = ['all', 'active', 'completed'];
+
+/** Reactive filter selection, default 'all'. Lives with the other todo primitives. */
+export function useTodoFilter() {
+  return createSignal<TodoFilter>('all');
+}
+
+/**
+ * Pure filter: returns only the todos visible under the given filter.
+ * Extracted so it is unit-testable without a reactive root.
+ */
+export function selectVisibleTodos(todos: readonly Todo[], filter: TodoFilter): Todo[] {
+  switch (filter) {
+    case 'active':
+      return todos.filter((todo) => !todo.completed);
+    case 'completed':
+      return todos.filter((todo) => todo.completed);
+    case 'all':
+      return [...todos];
+  }
+}
+
+/** Counts for the stats line, derived from the full (unfiltered) list. */
+export interface TodoCounts {
+  total: number;
+  active: number;
+  done: number;
+}
+
+/**
+ * Pure counter: total / active / done. Extracted so it is unit-testable without
+ * a reactive root or the query cache.
+ */
+export function computeTodoCounts(todos: readonly Todo[]): TodoCounts {
+  const done = todos.reduce((acc, todo) => acc + (todo.completed ? 1 : 0), 0);
+  return { total: todos.length, active: todos.length - done, done };
 }
 
 /** Read the todo list. Refetching/invalidation is driven by the mutations below. */

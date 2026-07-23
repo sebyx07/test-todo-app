@@ -1,6 +1,6 @@
 # @todo/web
 
-SolidJS SPA on Vite, styled with SCSS. App shell only — no product screens yet.
+SolidJS SPA on Vite, styled with SCSS. A todo app: add, complete, rename (double-click), delete, and filter by All/Active/Completed, with a live total/active/done count.
 
 ## Run
 ```bash
@@ -20,8 +20,8 @@ SPA, not SSR: this app sits behind no crawler that matters. SSR is only for publ
 | `src/lib/api.ts` | the only place `fetch` is called; throws `ApiError` |
 | `src/lib/query.ts` | TanStack Query client (server state) |
 | `src/lib/theme.ts` | theme helpers + persistence |
-| `src/routes/` | one file per route, default-exported |
-| `src/components/` | SRP components; shared ones graduate to `packages/ui` |
+| `src/routes/` | one file per route, default-exported — `Todos.tsx` (the app, `/` redirects here), `Home.tsx`, `NotFound.tsx` |
+| `src/components/` | SRP components; `TodoForm`, `TodoList`, `TodoItem`, `TodoFilters`, `TodoStats` — presentational only |
 | `src/styles/` | `_tokens` → `_reset` → `_base` → `_components`, entry `index.scss` |
 
 ## Rules
