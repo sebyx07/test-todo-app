@@ -12,6 +12,7 @@
   "dependencies": {
     "@solidjs/router": "^0.16.2",
     "@tanstack/solid-query": "^5.101.4",
+    "@todo/domain": "workspace:*",
     "solid-js": "^1.9.14"
   },
   "devDependencies": {
