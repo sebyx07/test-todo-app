@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Fresh clone → running stack. Idempotent: safe to re-run.
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; cd "$ROOT"
+
+ok(){ echo -e "\033[0;32m✔\033[0m  $*"; }
+warn(){ echo -e "\033[0;33m!\033[0m  $*"; }
+
+echo "▸ Prerequisites"
+command -v bun >/dev/null || { echo "bun not found → https://bun.sh"; exit 1; }
+ok "bun $(bun --version)"
+
+echo "▸ Dependencies"
+bun install
+ok "deps installed"
+
+echo "▸ Env"
+[ -f .env.development.local ] || cat > .env.development.local <<'EOF'
+# Per-box overrides + secrets — GITIGNORED, wins over .env.development
+EOF
+ok ".env.development.local present"
+
+echo "▸ Data stores"
+if command -v docker >/dev/null; then
+  docker compose -f docker/docker-compose.yml up -d
+  until docker compose -f docker/docker-compose.yml exec -T db pg_isready -U todo >/dev/null 2>&1; do sleep 1; done
+  ok "postgres + dragonfly up"
+else
+  warn "docker not found — skipping data stores"
+fi
+
+ok "Setup complete. Next: bin/dev"

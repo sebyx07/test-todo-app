@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# The gate: same commands CI runs. Green here = green there.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+bun run lint
+bun run typecheck
+bun run test
+bun run test:integration

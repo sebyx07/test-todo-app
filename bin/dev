@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Boot the local stack with hot reload. usage: bin/dev [api|web|all]
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+target="${1:-all}"
+case "$target" in
+  api) exec bun run --filter @todo/api dev ;;
+  web) exec bun run --filter @todo/web dev ;;
+  all)
+    trap 'kill $(jobs -p) 2>/dev/null' EXIT
+    bun run --filter @todo/api dev &
+    bun run --filter @todo/web dev &
+    wait
+    ;;
+  *) echo "usage: bin/dev [api|web|all]"; exit 2 ;;
+esac

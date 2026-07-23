@@ -1,0 +1,22 @@
+node_modules/
+dist/
+build/
+*.log
+
+# agent + local scratch — dir is tracked (via .keep), contents are not
+/tmp/*
+!/tmp/.keep
+.claude/settings.local.json
+.ai-task-master/
+.claude-task-master/
+.playwright-mcp/
+
+# env: committed defaults live in .env.development
+.env
+.env.*.local
+.env.local
+
+# editors
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,76 @@
+@use 'mixins' as *;
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(60rem 30rem at 50% -10rem, var(--accent-soft), transparent 70%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: rem(16);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: rgb(var(--c-accent) / 0.35);
+  text-underline-offset: 3px;
+  @include focus-ring;
+  @include transition(color, text-decoration-color);
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+code,
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+.container {
+  width: min(100% - var(--space-8), 68rem);
+  margin-inline: auto;
+}
+
+.sr-only {
+  @include sr-only;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}

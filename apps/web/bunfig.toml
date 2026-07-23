@@ -1,0 +1,4 @@
+# Solid JSX needs babel-preset-solid; component tests need a DOM.
+# Both are registered by the preload below — scoped to this app only.
+[test]
+preload = ["./test/preload.ts"]

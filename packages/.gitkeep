@@ -1,0 +1,2 @@
+# Shared single-responsibility packages land here (@todo/domain, @todo/db, …).
+# db = schema only. domain = pure types, no I/O. Keep the dependency graph acyclic.
