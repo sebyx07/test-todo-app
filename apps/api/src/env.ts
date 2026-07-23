@@ -5,6 +5,7 @@ const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
   API_PORT: z.coerce.number().int().positive().default(3000),
+  DB_PATH: z.string().default(':memory:'),
   DATABASE_URL: z.url().optional(),
   REDIS_URL: z.url().optional(),
 });

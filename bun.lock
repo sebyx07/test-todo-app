@@ -13,6 +13,8 @@
     "apps/api": {
       "name": "@todo/api",
       "dependencies": {
+        "@todo/db": "workspace:*",
+        "@todo/domain": "workspace:*",
         "hono": "^4.12.31",
         "zod": "^4.4.3",
       },
@@ -34,6 +36,18 @@
         "sass": "^1.101.6",
         "vite": "^8.1.5",
         "vite-plugin-solid": "^2.11.13",
+      },
+    },
+    "packages/db": {
+      "name": "@todo/db",
+      "dependencies": {
+        "@todo/domain": "workspace:*",
+      },
+    },
+    "packages/domain": {
+      "name": "@todo/domain",
+      "dependencies": {
+        "zod": "^4.4.3",
       },
     },
   },
@@ -205,6 +219,10 @@
     "@testing-library/dom": ["@testing-library/dom@10.4.1", "", { "dependencies": { "@babel/code-frame": "^7.10.4", "@babel/runtime": "^7.12.5", "@types/aria-query": "^5.0.1", "aria-query": "5.3.0", "dom-accessibility-api": "^0.5.9", "lz-string": "^1.5.0", "picocolors": "1.1.1", "pretty-format": "^27.0.2" } }, "sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg=="],
 
     "@todo/api": ["@todo/api@workspace:apps/api"],
+
+    "@todo/db": ["@todo/db@workspace:packages/db"],
+
+    "@todo/domain": ["@todo/domain@workspace:packages/domain"],
 
     "@todo/web": ["@todo/web@workspace:apps/web"],
 
