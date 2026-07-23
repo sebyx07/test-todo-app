@@ -9,6 +9,8 @@
     "test:integration": "bun test test/integration"
   },
   "dependencies": {
+    "@todo/db": "workspace:*",
+    "@todo/domain": "workspace:*",
     "hono": "^4.12.31",
     "zod": "^4.4.3"
   }
