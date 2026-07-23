@@ -6,7 +6,10 @@ import { For, Show } from 'solid-js';
 import { TodoItem } from './TodoItem';
 
 export interface TodoListProps {
+  /** Visible (already-filtered) todos. */
   todos: readonly Todo[];
+  /** Total UNFILTERED count — lets the empty branch tell "filtered away" from "genuinely empty". */
+  total?: number;
   isLoading: boolean;
   error?: unknown;
   onToggle: (id: string, completed: boolean) => void;
@@ -26,7 +29,11 @@ export const TodoList: Component<TodoListProps> = (props) => (
       <p class="todo-list__error">{errorMessage(props.error)}</p>
     </Show>
     <Show when={!props.isLoading && !props.error && props.todos.length === 0}>
-      <p class="todo-list__empty">Nothing to do yet — add your first todo above.</p>
+      <p class="todo-list__empty">
+        {props.total !== undefined && props.total > 0
+          ? 'No todos match this filter.'
+          : 'Nothing to do yet — add your first todo above.'}
+      </p>
     </Show>
     <Show when={!props.isLoading && !props.error && props.todos.length > 0}>
       <ul class="todo-list__items">

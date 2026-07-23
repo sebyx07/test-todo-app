@@ -3,7 +3,7 @@
 // elsewhere; only the deterministic, side-effect-free patcher is tested here.
 import { describe, expect, it } from 'bun:test';
 import type { Todo } from '@todo/domain';
-import { applyTodoPatch } from '../../src/lib/todos';
+import { applyTodoPatch, computeTodoCounts, selectVisibleTodos } from '../../src/lib/todos';
 
 /** Build a fresh Todo so tests can never share object references by accident. */
 function makeTodo(overrides: Partial<Todo> = {}): Todo {
@@ -105,5 +105,82 @@ describe('applyTodoPatch', () => {
 
     expect(result).toEqual(todos);
     expect(result).toHaveLength(2);
+  });
+});
+
+describe('selectVisibleTodos', () => {
+  it('returns every todo (a new array) under the "all" filter', () => {
+    const todos = [makeTodo({ id: '1', completed: false }), makeTodo({ id: '2', completed: true })];
+
+    const result = selectVisibleTodos(todos, 'all');
+
+    expect(result).toEqual(todos);
+    expect(result).not.toBe(todos);
+  });
+
+  it('keeps only incomplete todos under the "active" filter', () => {
+    const todos = [
+      makeTodo({ id: '1', completed: false }),
+      makeTodo({ id: '2', completed: true }),
+      makeTodo({ id: '3', completed: false }),
+    ];
+
+    const result = selectVisibleTodos(todos, 'active');
+
+    expect(result.map((t) => t.id)).toEqual(['1', '3']);
+  });
+
+  it('keeps only completed todos under the "completed" filter', () => {
+    const todos = [
+      makeTodo({ id: '1', completed: false }),
+      makeTodo({ id: '2', completed: true }),
+      makeTodo({ id: '3', completed: true }),
+    ];
+
+    const result = selectVisibleTodos(todos, 'completed');
+
+    expect(result.map((t) => t.id)).toEqual(['2', '3']);
+  });
+
+  it('returns an empty array for an empty input regardless of filter', () => {
+    expect(selectVisibleTodos([], 'all')).toEqual([]);
+    expect(selectVisibleTodos([], 'active')).toEqual([]);
+    expect(selectVisibleTodos([], 'completed')).toEqual([]);
+  });
+
+  it('does not mutate the input array', () => {
+    const todos = [makeTodo({ id: '1', completed: false })];
+
+    selectVisibleTodos(todos, 'completed');
+
+    expect(todos).toHaveLength(1);
+  });
+});
+
+describe('computeTodoCounts', () => {
+  it('counts total/active/done for a mixed list', () => {
+    const todos = [
+      makeTodo({ id: '1', completed: false }),
+      makeTodo({ id: '2', completed: true }),
+      makeTodo({ id: '3', completed: true }),
+    ];
+
+    expect(computeTodoCounts(todos)).toEqual({ total: 3, active: 1, done: 2 });
+  });
+
+  it('reports all active for a list with nothing done', () => {
+    const todos = [makeTodo({ completed: false }), makeTodo({ completed: false })];
+
+    expect(computeTodoCounts(todos)).toEqual({ total: 2, active: 2, done: 0 });
+  });
+
+  it('reports all done for a fully completed list', () => {
+    const todos = [makeTodo({ completed: true }), makeTodo({ completed: true })];
+
+    expect(computeTodoCounts(todos)).toEqual({ total: 2, active: 0, done: 2 });
+  });
+
+  it('returns zeroes for an empty list', () => {
+    expect(computeTodoCounts([])).toEqual({ total: 0, active: 0, done: 0 });
   });
 });

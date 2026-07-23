@@ -277,6 +277,42 @@
   }
 }
 
+// Filter row + stats line — presentational, token-only, nesting ≤ 3.
+.todo-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+
+  &__btn {
+    @include transition(background, border-color, color);
+
+    &.is-active {
+      border-color: rgb(var(--c-accent) / 0.6);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+  }
+}
+
+.todo-stats {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+
+  &__count {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  &__sep {
+    color: var(--border);
+  }
+}
+
 .todo-item {
   display: flex;
   align-items: center;
