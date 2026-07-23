@@ -8,8 +8,11 @@ export interface TodoStatsProps {
   counts: TodoCounts;
 }
 
+const statsLabel = (counts: TodoCounts): string =>
+  `todo stats: ${counts.total} total, ${counts.active} active, ${counts.done} done`;
+
 export const TodoStats: Component<TodoStatsProps> = (props) => (
-  <p class="todo-stats" aria-live="polite">
+  <div class="todo-stats" role="status" aria-label={statsLabel(props.counts)}>
     <span class="todo-stats__count">{props.counts.total}</span>
     <span class="todo-stats__label">total</span>
     <span class="todo-stats__sep" aria-hidden="true">
@@ -22,5 +25,5 @@ export const TodoStats: Component<TodoStatsProps> = (props) => (
     </span>
     <span class="todo-stats__count">{props.counts.done}</span>
     <span class="todo-stats__label">done</span>
-  </p>
+  </div>
 );

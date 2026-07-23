@@ -26,7 +26,7 @@ export const AppShell: ParentComponent = (props) => (
     </main>
 
     <footer class="site-footer">
-      <div class="container">scaffold — no features yet</div>
+      <div class="container">todo</div>
     </footer>
   </>
 );
