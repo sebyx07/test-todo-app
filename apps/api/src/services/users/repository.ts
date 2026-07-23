@@ -48,6 +48,21 @@ export function findUserByEmail(db: Database, email: string): User | null {
   return row ? mapUserRow(row) : null;
 }
 
+/** User + its stored password hash. Login is the only consumer; hash never leaves the service layer. */
+export interface UserCredentials {
+  user: User;
+  passwordHash: string;
+}
+
+/** Fetch a user + its password hash by email, or null. Used by login to verify the password. */
+export function findUserCredentialsByEmail(db: Database, email: string): UserCredentials | null {
+  const row = selectUserRowByEmail(db, email);
+  if (!row) {
+    return null;
+  }
+  return { user: mapUserRow(row), passwordHash: row.password_hash };
+}
+
 /** Fetch a user by id, or null when none exists. */
 export function findUserById(db: Database, id: string): User | null {
   const row = selectUserRowById(db, id);

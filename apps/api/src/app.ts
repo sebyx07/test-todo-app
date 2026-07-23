@@ -5,6 +5,7 @@ import { Hono } from 'hono';
 import { env } from './env';
 import { type AppEnv, authMiddleware } from './middleware/auth';
 import { errorHandler } from './middleware/error';
+import { registerAuthRoutes } from './routes/auth';
 import { registerHealthRoutes } from './routes/health';
 import { registerTodoRoutes } from './routes/todos';
 
@@ -20,6 +21,7 @@ export function createApp(db: Database = createDb(env.DB_PATH)): Hono<AppEnv> {
 
   app.use('*', authMiddleware(db));
   app.onError(errorHandler);
+  registerAuthRoutes(app, db);
   registerHealthRoutes(app);
   registerTodoRoutes(app, db);
 
