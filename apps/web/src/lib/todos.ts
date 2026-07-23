@@ -19,11 +19,7 @@ export interface UpdateTodoVariables {
  * overlaid by `patch` (non-mutating). Extracted so it is unit-testable in isolation
  * — the hooks themselves need a reactive root + QueryClient context.
  */
-export function applyTodoPatch(
-  todos: readonly Todo[],
-  id: string,
-  patch: UpdateTodoInput,
-): Todo[] {
+export function applyTodoPatch(todos: readonly Todo[], id: string, patch: UpdateTodoInput): Todo[] {
   return todos.map((todo): Todo => (todo.id === id ? { ...todo, ...patch } : todo));
 }
 

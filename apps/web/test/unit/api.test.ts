@@ -23,11 +23,7 @@ const sampleTodo: Todo = {
 };
 
 /** Swap globalThis.fetch for a controllable mock; returns it for call assertions. */
-function mockFetch(opts: {
-  ok?: boolean;
-  status?: number;
-  json?: () => Promise<unknown>;
-}) {
+function mockFetch(opts: { ok?: boolean; status?: number; json?: () => Promise<unknown> }) {
   const fn = mock(() =>
     Promise.resolve({
       ok: opts.ok ?? true,
@@ -136,10 +132,7 @@ describe('apiDelete', () => {
 
     expect(result).toBeUndefined();
     expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith(
-      '/api/items/1',
-      expect.objectContaining({ method: 'DELETE' }),
-    );
+    expect(fn).toHaveBeenCalledWith('/api/items/1', expect.objectContaining({ method: 'DELETE' }));
   });
 
   it('throws ApiError on !ok', async () => {
