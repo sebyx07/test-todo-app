@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { createDb, migrate, mapTodoRow } from '@todo/db';
+import { createDb, mapTodoRow, migrate } from '@todo/db';
 import { todoSchema } from '@todo/domain';
 
 describe('db layer', () => {
