@@ -3,13 +3,14 @@
 import type { Database } from 'bun:sqlite';
 import type { CreateTodoInput, UpdateTodoInput } from '@todo/domain';
 import type { Hono } from 'hono';
+import type { AppEnv } from '../middleware/auth';
 import { create } from '../services/todos/create';
 import { list } from '../services/todos/list';
 import { remove } from '../services/todos/remove';
 import { update } from '../services/todos/update';
 
 /** Register the todo CRUD routes on `app`, all backed by `db`. */
-export function registerTodoRoutes(app: Hono, db: Database): void {
+export function registerTodoRoutes(app: Hono<AppEnv>, db: Database): void {
   app.get('/todos', (c) => c.json(list(db), 200));
 
   app.post('/todos', async (c) => {
