@@ -35,6 +35,9 @@ export const TodoItem: Component<TodoItemProps> = (props) => {
   };
 
   const cancel = (): void => {
+    // Clear the draft so a trailing blur (fired by the browser as the focused
+    // input is unmounted) cannot resurrect the discarded value via commit().
+    setDraft('');
     setEditing(false);
   };
 

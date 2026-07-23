@@ -117,6 +117,25 @@ describe('TodoItem', () => {
     unmount();
   });
 
+  it('does not rename when a trailing blur fires after Escape cancels', () => {
+    // A real browser fires blur on the focused input as it is removed from the
+    // DOM; commit() is wired to that blur and would otherwise rename with the
+    // discarded draft. cancel() must clear the draft to close that hole.
+    const onRename = mock();
+    const { getByText, getByLabelText, unmount } = render(() => (
+      <TodoItem todo={makeTodo()} onToggle={noop} onDelete={noop} onRename={onRename} />
+    ));
+
+    fireEvent.dblClick(getByText('Write tests'));
+    const edit = getByLabelText('Edit todo title') as HTMLInputElement;
+    fireEvent.input(edit, { target: { value: 'Discarded' } });
+    fireEvent.keyDown(edit, { key: 'Escape' });
+    fireEvent.blur(edit);
+
+    expect(onRename).not.toHaveBeenCalled();
+    unmount();
+  });
+
   it('ignores an empty edit on blur without renaming', () => {
     const onRename = mock();
     const { getByText, getByLabelText, unmount } = render(() => (
