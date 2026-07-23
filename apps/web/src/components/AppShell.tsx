@@ -4,9 +4,9 @@
 import { A } from '@solidjs/router';
 import type { ParentComponent } from 'solid-js';
 import { Show } from 'solid-js';
+import { useLogout, useSession } from '../lib/auth';
 import { HealthBadge } from './HealthBadge';
 import { ThemeToggle } from './ThemeToggle';
-import { useLogout, useSession } from '../lib/auth';
 
 export const AppShell: ParentComponent = (props) => {
   const session = useSession();

@@ -90,11 +90,7 @@ export const AuthForm: Component<AuthFormProps> = (props) => {
         {(serverError) => <p class="auth-form__error auth-form__error--server">{serverError()}</p>}
       </Show>
 
-      <button
-        class="btn btn--primary auth-form__submit"
-        type="submit"
-        disabled={props.pending}
-      >
+      <button class="btn btn--primary auth-form__submit" type="submit" disabled={props.pending}>
         {props.submitLabel}
       </button>
     </form>

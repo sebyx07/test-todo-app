@@ -7,13 +7,13 @@ import { AuthForm } from '../../src/components/AuthForm';
 describe('AuthForm', () => {
   it('calls onSubmit with the trimmed email and password on a valid submit', () => {
     const submit = mock();
-    const { getByRole, unmount } = render(() => (
+    const { getByRole, getByLabelText, unmount } = render(() => (
       <AuthForm onSubmit={submit} submitLabel="Log in" title="Log in" />
     ));
     fireEvent.input(getByRole('textbox', { name: 'Email' }), {
       target: { value: '  user@example.com  ' },
     });
-    fireEvent.input(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.input(getByLabelText('Password'), {
       target: { value: 'password123' },
     });
 
@@ -38,13 +38,13 @@ describe('AuthForm', () => {
 
   it('does not call onSubmit when the email is invalid', () => {
     const submit = mock();
-    const { getByRole, unmount } = render(() => (
+    const { getByRole, getByLabelText, unmount } = render(() => (
       <AuthForm onSubmit={submit} submitLabel="Log in" title="Log in" />
     ));
     fireEvent.input(getByRole('textbox', { name: 'Email' }), {
       target: { value: 'not-an-email' },
     });
-    fireEvent.input(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.input(getByLabelText('Password'), {
       target: { value: 'password123' },
     });
 
@@ -56,13 +56,13 @@ describe('AuthForm', () => {
 
   it('does not call onSubmit when the password is too short', () => {
     const submit = mock();
-    const { getByRole, unmount } = render(() => (
+    const { getByRole, getByLabelText, unmount } = render(() => (
       <AuthForm onSubmit={submit} submitLabel="Log in" title="Log in" />
     ));
     fireEvent.input(getByRole('textbox', { name: 'Email' }), {
       target: { value: 'user@example.com' },
     });
-    fireEvent.input(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.input(getByLabelText('Password'), {
       target: { value: 'short' },
     });
 
@@ -83,13 +83,13 @@ describe('AuthForm', () => {
 
   it('does not call onSubmit when pending', () => {
     const submit = mock();
-    const { getByRole, unmount } = render(() => (
+    const { getByRole, getByLabelText, unmount } = render(() => (
       <AuthForm onSubmit={submit} submitLabel="Log in" title="Log in" pending />
     ));
     fireEvent.input(getByRole('textbox', { name: 'Email' }), {
       target: { value: 'user@example.com' },
     });
-    fireEvent.input(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.input(getByLabelText('Password'), {
       target: { value: 'password123' },
     });
 
@@ -115,13 +115,13 @@ describe('AuthForm', () => {
 
   it('submits on Enter through the form', () => {
     const submit = mock();
-    const { getByRole, unmount } = render(() => (
+    const { getByRole, getByLabelText, unmount } = render(() => (
       <AuthForm onSubmit={submit} submitLabel="Log in" title="Log in" />
     ));
     fireEvent.input(getByRole('textbox', { name: 'Email' }), {
       target: { value: 'user@example.com' },
     });
-    fireEvent.input(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.input(getByLabelText('Password'), {
       target: { value: 'password123' },
     });
 

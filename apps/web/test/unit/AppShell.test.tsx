@@ -6,8 +6,8 @@ import { afterEach, describe, expect, it } from 'bun:test';
 import { Route, Router } from '@solidjs/router';
 import { cleanup, render } from '@solidjs/testing-library';
 import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
-import type { ParentComponent } from 'solid-js';
 import type { User } from '@todo/domain';
+import type { ParentComponent } from 'solid-js';
 import { AppShell } from '../../src/components/AppShell';
 import { sessionKeys } from '../../src/lib/auth';
 

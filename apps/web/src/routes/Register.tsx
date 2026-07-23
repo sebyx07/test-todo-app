@@ -3,8 +3,8 @@
 import { A, useNavigate } from '@solidjs/router';
 import type { Component } from 'solid-js';
 import { AuthForm } from '../components/AuthForm';
-import { useRegister } from '../lib/auth';
 import { ApiError } from '../lib/api';
+import { useRegister } from '../lib/auth';
 
 const Register: Component = () => {
   const navigate = useNavigate();
@@ -23,15 +23,18 @@ const Register: Component = () => {
   };
 
   return (
-    <AuthForm
-      title="Register"
-      submitLabel="Register"
-      onSubmit={handleSubmit}
-      pending={register.isPending}
-      error={errorMessage()}
-    >
-      <A href="/login">Already have an account? Log in</A>
-    </AuthForm>
+    <div class="auth-page">
+      <AuthForm
+        title="Register"
+        submitLabel="Register"
+        onSubmit={handleSubmit}
+        pending={register.isPending}
+        error={errorMessage()}
+      />
+      <p class="auth-page__alt">
+        Already have an account? <A href="/login">Log in</A>
+      </p>
+    </div>
   );
 };
 
