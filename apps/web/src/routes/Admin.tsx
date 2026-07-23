@@ -3,12 +3,13 @@
 // useDeleteUser, useAdminStats — to render the platform counts and a user list
 // with per-row role-toggle and delete actions. The mutations' onError surfaces
 // a user-facing message; the optimistic patches keep the list responsive.
+
+import { useNavigate } from '@solidjs/router';
 import type { Role, User } from '@todo/domain';
 import type { Component } from 'solid-js';
 import { For, Show } from 'solid-js';
-import { useNavigate } from '@solidjs/router';
-import { ApiError } from '../lib/api';
 import { useAdminStats, useDeleteUser, useUpdateUserRole, useUsers } from '../lib/admin';
+import { ApiError } from '../lib/api';
 import { requireAdmin, useSession } from '../lib/auth';
 
 /** Toggle a user between the two roles. The server enforces self/last-admin guards. */
@@ -46,7 +47,8 @@ const Admin: Component = () => {
     deleteUser.mutate(id);
   };
 
-  const counts = (): { userCount: number; todoCount: number } => stats.data ?? { userCount: 0, todoCount: 0 };
+  const counts = (): { userCount: number; todoCount: number } =>
+    stats.data ?? { userCount: 0, todoCount: 0 };
 
   return (
     <section class="admin-page">

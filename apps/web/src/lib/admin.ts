@@ -88,7 +88,10 @@ export function useUpdateUserRole() {
       await queryClient.cancelQueries({ queryKey: adminKeys.users });
       const previousUsers = queryClient.getQueryData<User[]>(adminKeys.users);
       if (previousUsers) {
-        queryClient.setQueryData<User[]>(adminKeys.users, applyUserRolePatch(previousUsers, id, role));
+        queryClient.setQueryData<User[]>(
+          adminKeys.users,
+          applyUserRolePatch(previousUsers, id, role),
+        );
       }
       return { previousUsers };
     },
