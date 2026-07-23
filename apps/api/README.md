@@ -1,8 +1,6 @@
 # @todo/api
 
-Hono HTTP API on Bun. A health route plus a todo service layer backed by SQLite (`@todo/db`).
-
-> **As of 2026-07:** the todo **services** are implemented (`src/services/todos/`) and unit-tested, and the web client (`apps/web`) already calls `GET/POST /todos` and `PATCH/DELETE /todos/:id` — but the todo **HTTP routes** are not yet registered in `src/app.ts`, and `migrate()` is not yet called at boot. Only `/healthz` is reachable over HTTP today. See `docs/spec.md` for the intended endpoint contract.
+Hono HTTP API on Bun. Serves `/healthz` plus todo CRUD (`GET/POST /todos`, `PATCH/DELETE /todos/:id`) backed by SQLite (`@todo/db`). `createApp()` opens the db from `env.DB_PATH` and runs the idempotent migration at boot. The todo services (`src/services/todos/`) are unit-tested and the routes are integration-tested over real HTTP. See `docs/spec.md` for the endpoint contract.
 
 ## Run
 ```bash

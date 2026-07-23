@@ -49,5 +49,4 @@ Status codes: `201` on create, `200` elsewhere, `404`/`422` only via thrown `App
 
 ## Implementation status — as of 2026-07
 
-- **Done:** `Todo` domain types + Zod schemas (`packages/domain`); SQLite schema, migration, and row mapper (`packages/db`); todo services `create`/`list`/`update`/`remove` over a single SQL repository (`apps/api/src/services/todos/`), unit-tested; `DB_PATH` in the env schema; the full SolidJS todo UI with filters and stats.
-- **Gap (follow-up):** the todo **HTTP routes** are not registered in `apps/api/src/app.ts` — only `/healthz` is reachable — and `migrate()` is not called at boot. Wiring `registerTodoRoutes(app)` + `migrate(db)` in `createApp()` closes the loop the web client already expects.
+- **Done:** `Todo` domain types + Zod schemas (`packages/domain`); SQLite schema, migration, and row mapper (`packages/db`); todo services `create`/`list`/`update`/`remove` over a single SQL repository (`apps/api/src/services/todos/`), unit-tested; `DB_PATH` in the env schema; the todo HTTP routes registered in `createApp()` with migration at boot (`apps/api/src/app.ts`), integration-tested over real HTTP; the full SolidJS todo UI with filters and stats.
