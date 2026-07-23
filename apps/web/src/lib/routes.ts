@@ -11,5 +11,7 @@ export interface RouteEntry {
 export const ROUTE_TABLE: RouteEntry[] = [
   { path: '/', component: lazy(() => import('../routes/Home')) },
   { path: '/todos', component: lazy(() => import('../routes/Todos')) },
+  { path: '/login', component: lazy(() => import('../routes/Login')) },
+  { path: '/register', component: lazy(() => import('../routes/Register')) },
   { path: '*', component: lazy(() => import('../routes/NotFound')) },
 ];
