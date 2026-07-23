@@ -9,6 +9,9 @@ import { updateTodo } from './repository';
 
 /** Validate the input, then update only the supplied fields of the todo. */
 export function update(db: Database, id: string, input: UpdateTodoInput): Todo {
-  const parsed = updateTodoSchema.parse(input);
+  // Zod infers optional fields as `T | undefined`, but UpdateTodoInput under
+  // exactOptionalPropertyTypes omits explicit undefined. The parsed object is
+  // runtime-valid (absent keys stay absent), so the cast bridges the type gap.
+  const parsed = updateTodoSchema.parse(input) as UpdateTodoInput;
   return updateTodo(db, id, parsed);
 }
