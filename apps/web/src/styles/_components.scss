@@ -38,6 +38,20 @@
     align-items: center;
     gap: var(--space-4);
   }
+
+  &__link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 550;
+    @include focus-ring;
+    @include transition(color);
+
+    &:hover,
+    &.active {
+      color: var(--text);
+    }
+  }
 }
 
 .site-main {
@@ -194,5 +208,136 @@
   &__value {
     font-family: var(--font-mono);
     font-size: 0.875rem;
+  }
+}
+
+// --- Todos feature -----------------------------------------------------------
+
+.todo-page {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 40rem;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+.todo-form {
+  display: flex;
+  gap: var(--space-3);
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.9375rem;
+    @include focus-ring;
+    @include transition(border-color);
+
+    &:focus {
+      border-color: rgb(var(--c-accent) / 0.5);
+    }
+  }
+
+  &__submit {
+    white-space: nowrap;
+  }
+}
+
+.todo-list {
+  display: grid;
+  gap: var(--space-3);
+
+  &__loading,
+  &__error,
+  &__empty {
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--muted);
+    @extend %card-base;
+  }
+
+  &__error {
+    color: var(--danger);
+  }
+
+  &__items {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  @include transition(border-color);
+
+  &__checkbox {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    word-break: break-word;
+    @include focus-ring;
+    @include transition(color);
+  }
+
+  &__edit {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid rgb(var(--c-accent) / 0.5);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    @include focus-ring;
+  }
+
+  &__delete {
+    flex: none;
+    padding: var(--space-1) var(--space-2);
+    line-height: 1;
+    opacity: 0.6;
+    @include transition(opacity, border-color, color);
+
+    &:hover {
+      opacity: 1;
+      border-color: rgb(var(--c-danger) / 0.5);
+      color: var(--danger);
+    }
+  }
+
+  &.is-done &__title {
+    color: var(--muted);
+    text-decoration: line-through;
   }
 }

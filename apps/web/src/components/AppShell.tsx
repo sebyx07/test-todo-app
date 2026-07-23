@@ -12,6 +12,9 @@ export const AppShell: ParentComponent = (props) => (
           ✅ todo
         </A>
         <nav class="site-header__nav">
+          <A href="/todos" class="site-header__link">
+            Todos
+          </A>
           <HealthBadge />
           <ThemeToggle />
         </nav>
