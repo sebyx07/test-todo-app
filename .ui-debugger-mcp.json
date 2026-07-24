@@ -1,6 +1,6 @@
 {
   "models": {
-    "driver": "deepseek/deepseek-v4-flash#uptime",
+    "driver": "deepseek/deepseek-v4-flash",
     "vision": "qwen/qwen3-vl-32b-instruct",
     "summary": "deepseek/deepseek-v4-flash"
   },
