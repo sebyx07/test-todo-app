@@ -109,3 +109,7 @@ tmp/                          # gitignored scratch — put junk here, never in t
 - `AGENTS.md` is a symlink to this file — edit this one only.
 - TS `noPropertyAccessFromIndexSignature` is on → index/env access uses brackets; Biome's `useLiteralKeys` is off for that reason.
 - Never add a dep Bun already ships (test runner, bundler, `.env` loader, SQLite, `$` shell).
+
+## Note
+
+Do not use git worktrees — work directly in this checkout. If a task is big enough to need subagents, run them as a team in this same checkout: split the work into disjoint pieces so no two agents touch the same files.
